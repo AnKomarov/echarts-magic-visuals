@@ -165,11 +165,15 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
             </div>
           </div>
           
-          {/* Day labels rendered as a separate component below the chart */}
-          <div className="flex justify-between px-[8%] mt-1">
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
-              <div key={index} className="text-center text-sm text-gray-500">{day}</div>
-            ))}
+          {/* Day labels positioned between A/B pairs */}
+          <div className="flex justify-between px-4 mt-1">
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Mon</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Tue</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Wed</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Thu</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Fri</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Sat</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Sun</div>
           </div>
         </>
       )}

@@ -57,40 +57,6 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
           top: '8%',
           containLabel: true
         },
-        xAxis: {
-          type: 'category',
-          data: ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B'],
-          axisTick: {
-            alignWithLabel: true,
-          },
-          axisLabel: {
-            formatter: function(value: string, index: number) {
-              const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-              const dayIndex = Math.floor(index / 2);
-              
-              // Show A/B on the bars
-              if (index % 2 === 0) {
-                return value;
-              } else {
-                // Only show days under the B bars
-                return '';
-              }
-            },
-            interval: 0,
-            fontSize: 12,
-            color: '#6B7280',
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#E5E7EB'
-            }
-          },
-          // Add a second level of labels for days
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
-        // Add a second x-axis just for the day labels
         xAxis: [
           {
             type: 'category',
@@ -99,8 +65,7 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
               alignWithLabel: true,
             },
             axisLabel: {
-              formatter: function(value: string, index: number) {
-                // Show A/B on the bars
+              formatter: function(value: string) {
                 return value;
               },
               interval: 0,
@@ -111,32 +76,6 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
               lineStyle: {
                 color: '#E5E7EB'
               }
-            },
-            position: 'bottom'
-          },
-          {
-            type: 'category',
-            position: 'bottom',
-            offset: 25,
-            axisTick: {
-              show: false
-            },
-            axisLine: {
-              show: false
-            },
-            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].reduce((acc, day) => [...acc, day, ''], []),
-            axisLabel: {
-              formatter: function(value: string, index: number) {
-                // Only show day labels under every second tick (B positions)
-                if (index % 2 === 1 || value === '') {
-                  return '';
-                }
-                return value;
-              },
-              interval: 0,
-              fontSize: 12,
-              color: '#6B7280',
-              align: 'center'
             }
           }
         ],
@@ -244,11 +183,15 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
             </div>
           </div>
           
-          {/* Day labels rendered as a separate component below the chart */}
-          <div className="flex justify-between px-[8%] mt-1">
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
-              <div key={index} className="text-center text-sm text-gray-500">{day}</div>
-            ))}
+          {/* Day labels positioned between A/B pairs */}
+          <div className="flex justify-between px-4 mt-1">
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Mon</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Tue</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Wed</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Thu</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Fri</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Sat</div>
+            <div className="w-[14.28%] text-center text-sm text-gray-500">Sun</div>
           </div>
         </>
       )}
