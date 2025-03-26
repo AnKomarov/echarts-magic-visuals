@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { EChartsOption } from 'echarts';
@@ -13,14 +12,7 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate data loading
     const timer = setTimeout(() => {
-      // Data specifically arranged to match the image
-      // Format: [Mon A, Mon B, Tue A, Tue B, Wed A, Wed B, Thu A, Thu B, Fri A, Fri B, Sat A, Sat B, Sun A, Sun B]
-      const blueSeriesData = [120, 120, 200, 200, 150, 150, 80, 80, 70, 70, 110, 110, 130, 130];
-      const greenSeriesData = [120, 120, 200, 200, 150, 150, 80, 80, 70, 70, 110, 110, 130, 130];
-      const yellowSeriesData = [120, 0, 200, 0, 150, 0, 80, 0, 70, 0, 110, 0, 130, 0];
-
       const option: EChartsOption = {
         tooltip: {
           trigger: 'axis',
@@ -62,14 +54,15 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
               if (index % 2 === 0) {
                 return value;
               } else {
-                return `${value}\n${days[dayIndex]}`;
+                return `${days[dayIndex]}`;
               }
             },
             interval: 0,
             fontSize: 12,
             color: '#6B7280',
             align: 'center',
-            lineHeight: 20
+            verticalAlign: 'middle',
+            lineHeight: 50
           },
           axisLine: {
             lineStyle: {
@@ -103,7 +96,7 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
             },
             data: [120, 120, 200, 200, 150, 150, 80, 80, 70, 70, 110, 110, 130, 130],
             itemStyle: {
-              color: '#4F6AF0' // Blue
+              color: '#4F6AF0'
             },
             barMaxWidth: 50,
             barGap: '10%',
@@ -118,7 +111,7 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
             },
             data: [120, 120, 200, 200, 150, 150, 80, 80, 70, 70, 110, 110, 130, 130],
             itemStyle: {
-              color: '#9DE88D' // Green
+              color: '#9DE88D'
             },
             barMaxWidth: 50,
             animationDelay: (idx: number) => idx * 50 + 100
@@ -132,7 +125,7 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
             },
             data: [120, 0, 200, 0, 150, 0, 80, 0, 70, 0, 110, 0, 130, 0],
             itemStyle: {
-              color: '#FECE51' // Yellow
+              color: '#FECE51'
             },
             barMaxWidth: 50,
             animationDelay: (idx: number) => idx * 50 + 200
