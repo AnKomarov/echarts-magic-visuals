@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { EChartsOption } from 'echarts';
@@ -36,7 +37,7 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '8%',
+          bottom: '12%', // Increased to make room for day labels
           top: '8%',
           containLabel: true
         },
@@ -47,22 +48,12 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
             alignWithLabel: true,
           },
           axisLabel: {
-            formatter: function(value: string, index: number) {
-              const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-              const dayIndex = Math.floor(index / 2);
-              
-              if (index % 2 === 0) {
-                return value;
-              } else {
-                return `${days[dayIndex]}`;
-              }
+            formatter: function(value: string) {
+              return value;
             },
             interval: 0,
             fontSize: 12,
             color: '#6B7280',
-            align: 'center',
-            verticalAlign: 'middle',
-            lineHeight: 50
           },
           axisLine: {
             lineStyle: {
@@ -172,6 +163,13 @@ const WeeklyComparisonChart: React.FC<WeeklyComparisonChartProps> = ({ title, su
               <div className="legend-color" style={{ backgroundColor: '#FECE51' }}></div>
               <span>Top Value</span>
             </div>
+          </div>
+          
+          {/* Day labels rendered as a separate component below the chart */}
+          <div className="flex justify-between px-[8%] mt-1">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+              <div key={index} className="text-center text-sm text-gray-500">{day}</div>
+            ))}
           </div>
         </>
       )}

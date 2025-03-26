@@ -38,7 +38,7 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({ title, subtitle }) =>
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '3%',
+          bottom: '12%', // Increased to make room for day labels
           top: '8%',
           containLabel: true
         },
@@ -59,25 +59,10 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({ title, subtitle }) =>
           axisLabel: {
             color: '#6B7280',
             fontSize: 12,
-            formatter: function(value: string, index: number) {
-              // Group labels by pairs, add day labels below
-              if (index % 2 === 1) {
-                const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                return `{value|${value}}\n{day|${days[Math.floor(index/2)]}}`;
-              }
-              return `{value|${value}}`;
+            formatter: function(value: string) {
+              return value;
             },
-            rich: {
-              value: {
-                fontSize: 12,
-                color: '#6B7280'
-              },
-              day: {
-                fontSize: 11,
-                color: '#9CA3AF',
-                padding: [5, 0, 0, 0]
-              }
-            }
+            interval: 0
           }
         },
         yAxis: {
@@ -184,6 +169,13 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({ title, subtitle }) =>
               <div className="legend-color" style={{ backgroundColor: '#FECE51' }}></div>
               <span>Group 3</span>
             </div>
+          </div>
+          
+          {/* Day labels rendered as a separate component below the chart */}
+          <div className="flex justify-between px-[8%] mt-1">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+              <div key={index} className="text-center text-sm text-gray-500">{day}</div>
+            ))}
           </div>
         </>
       )}

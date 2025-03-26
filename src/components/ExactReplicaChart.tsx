@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { EChartsOption } from 'echarts';
@@ -52,7 +53,7 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
         grid: {
           left: '3%',
           right: '4%',
-          bottom: '8%',
+          bottom: '12%', // Increased bottom margin to make room for day labels
           top: '8%',
           containLabel: true
         },
@@ -67,25 +68,78 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
               const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
               const dayIndex = Math.floor(index / 2);
               
+              // Show A/B on the bars
               if (index % 2 === 0) {
                 return value;
               } else {
-                return `${days[dayIndex]}`;
+                // Only show days under the B bars
+                return '';
               }
             },
             interval: 0,
             fontSize: 12,
             color: '#6B7280',
-            align: 'center',
-            verticalAlign: 'middle',
-            lineHeight: 50
           },
           axisLine: {
             lineStyle: {
               color: '#E5E7EB'
             }
           },
+          // Add a second level of labels for days
+          axisPointer: {
+            type: 'shadow'
+          }
         },
+        // Add a second x-axis just for the day labels
+        xAxis: [
+          {
+            type: 'category',
+            data: ['A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B', 'A', 'B'],
+            axisTick: {
+              alignWithLabel: true,
+            },
+            axisLabel: {
+              formatter: function(value: string, index: number) {
+                // Show A/B on the bars
+                return value;
+              },
+              interval: 0,
+              fontSize: 12,
+              color: '#6B7280',
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#E5E7EB'
+              }
+            },
+            position: 'bottom'
+          },
+          {
+            type: 'category',
+            position: 'bottom',
+            offset: 25,
+            axisTick: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].reduce((acc, day) => [...acc, day, ''], []),
+            axisLabel: {
+              formatter: function(value: string, index: number) {
+                // Only show day labels under every second tick (B positions)
+                if (index % 2 === 1 || value === '') {
+                  return '';
+                }
+                return value;
+              },
+              interval: 0,
+              fontSize: 12,
+              color: '#6B7280',
+              align: 'center'
+            }
+          }
+        ],
         yAxis: {
           type: 'value',
           max: 600,
@@ -188,6 +242,13 @@ const ExactReplicaChart: React.FC<ExactReplicaChartProps> = ({ title, subtitle }
               <div className="legend-color" style={{ backgroundColor: '#FECE51' }}></div>
               <span>Top</span>
             </div>
+          </div>
+          
+          {/* Day labels rendered as a separate component below the chart */}
+          <div className="flex justify-between px-[8%] mt-1">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+              <div key={index} className="text-center text-sm text-gray-500">{day}</div>
+            ))}
           </div>
         </>
       )}
